@@ -1,0 +1,14 @@
+<?php
+
+
+function dymant_form_alter(&$form, &$form_state, $form_id) {
+ 
+ if ($form['form_id']['#value'] == 'project_craft_node_form') {
+   dpm($form);
+   foreach ($form['#steps'] as $key => $step) {
+    if (isset($step->format_settings['instance_settings']['buttons']['skip'])) {
+      //unset($form['#steps'][$key]->format_settings['instance_settings']['buttons']['skip']);
+    }
+   }
+ }
+}
