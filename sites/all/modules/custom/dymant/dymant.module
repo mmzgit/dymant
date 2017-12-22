@@ -4,11 +4,16 @@
 function dymant_form_alter(&$form, &$form_state, $form_id) {
  
  if ($form['form_id']['#value'] == 'project_craft_node_form') {
-   dpm($form);
+   drupal_set_title('Créer votre projet');
+   $form['actions']['submit']['#value'] = t('Envoyer');
    foreach ($form['#steps'] as $key => $step) {
-    if (isset($step->format_settings['instance_settings']['buttons']['skip'])) {
-      //unset($form['#steps'][$key]->format_settings['instance_settings']['buttons']['skip']);
+    if (!empty($step->label)) {
+      $step->label = '';
     }
    }
+ }
+
+ if ($form['form_id']['#value'] == 'project_craft_node_form') {
+
  }
 }
