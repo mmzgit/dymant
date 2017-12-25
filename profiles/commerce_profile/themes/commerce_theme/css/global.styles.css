@@ -2958,3 +2958,54 @@ body.html .pager .pager-next {
   margin: 5px 0;
 }
 
+#edit-field-images-inspiration ul > li {
+  float: left;
+  margin-right: 40px;
+  margin-bottom: 10px;
+}
+
+.node-project_craft-form label {
+  display: inline;
+}
+
+.node-project_craft-form label img {
+  width: 200px;
+  height: 210px;
+}
+
+.node-project_craft-form .form-checkbox,
+.node-project_craft-form .no-term-reference-tree-button {
+	display: none;
+}
+
+.node-project_craft-form .form-checkbox + label {
+  -webkit-appearance: none;
+	background-color: #fafafa;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+}
+
+.node-project_craft-form .form-checkbox + label:active,
+.node-project_craft-form .form-checkbox:checked + label:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.node-project_craft-form .form-checkbox:checked + label {
+  background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+}
+
+.node-project_craft-form .form-checkbox:checked + label:after  {
+	content: '\2714';
+	font-size: 50px;
+	position: absolute;
+	top: -10px;
+	left: 3px;
+	color: #99a1a7;
+}
