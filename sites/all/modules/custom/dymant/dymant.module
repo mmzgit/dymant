@@ -1,19 +1,56 @@
 <?php
+define('CUSTOMER', 'client');
+define('CRAFTSMEN', 'artisan');
 
-
+/**
+ * Implements hook_form_alter()
+ */
 function dymant_form_alter(&$form, &$form_state, $form_id) {
- 
- if ($form['form_id']['#value'] == 'project_craft_node_form') {
-   drupal_set_title('Créer votre projet');
-   $form['actions']['submit']['#value'] = t('Envoyer');
-   foreach ($form['#steps'] as $key => $step) {
-    if (!empty($step->label)) {
-      $step->label = '';
+  switch ($form_id) {
+    case 'project_craft_node_form':
+      drupal_set_title('Créer votre projet');
+      $form['actions']['submit']['#value'] = t('Envoyer');
+      foreach ($form['#steps'] as $key => $step) {
+        if (!empty($step->label)) {
+          $step->label = '';
+        }
+      }
+      break;
+    case 'user_profile_form':
+      // Hide fields depending on user role.
+      if (in_array('customer', $form['#user']->roles)) {
+        $form['field_type_compte']['#access'] = FALSE;
+        $form['field_savoir_faire']['#access'] = FALSE;
+        $form['field_commentaire']['#access'] = FALSE;
+        $form['block']['#access'] = FALSE;
+        $form['contact']['#access'] = FALSE;
+        $form['#after_build'][] = '_dymant_disable_locale';
+      }
+      break;
+  }
+}
+
+/**
+ * Disable locale display on user profile form.
+ */
+function _dymant_disable_locale($element, &$form_state) {
+  $element['locale']['#access'] = FALSE;
+
+  return $element;
+}
+
+/**
+ * Implements hook_user_insert()
+ */
+function dymant_user_insert(&$edit, $account, $category) {
+  // We need to set user role based on account type selected in form subscription.
+  if (isset($edit['field_type_compte'][LANGUAGE_NONE][0]['value'])) {
+    $account_type = $edit['field_type_compte'][LANGUAGE_NONE][0]['value'];
+    if ($account_type == CUSTOMER) {
+      $account->roles[4] = 'customer';
     }
-   }
- }
-
- if ($form['form_id']['#value'] == 'project_craft_node_form') {
-
- }
+    else {
+      $account->roles[5] = 'craftsman';
+    }
+  }
 }
