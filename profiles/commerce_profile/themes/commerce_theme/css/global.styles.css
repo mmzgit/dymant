@@ -2476,7 +2476,7 @@ body.html .pager .pager-next {
   box-sizing: border-box;
   font-size: 14px;
   height: 28px;
-  box-shadow: 
+  /*box-shadow: */
 }
 #footer .custom-footer-simplenews .form-submit {
   background: #eceeee;
@@ -2521,6 +2521,7 @@ body.html .pager .pager-next {
   color: #fff;
   font-size: 13px;
   margin-top: 17px;
+  margin-bottom: 5px;
 }
 #footer .custom-footer-info .content .footer-information a {
   padding: 0 3px;
@@ -2974,11 +2975,14 @@ body.html .pager .pager-next {
 }
 
 .node-project_craft-form .form-checkbox,
-.node-project_craft-form .no-term-reference-tree-button {
+.node-project_craft-form .no-term-reference-tree-button,
+.node-project_craft-form .form-radio,
+.node-project_craft-form .term-reference-tree-button {
 	display: none;
 }
 
-.node-project_craft-form .form-checkbox + label {
+.node-project_craft-form .form-checkbox + label,
+.node-project_craft-form .form-radio + label {
   -webkit-appearance: none;
 	background-color: #fafafa;
 	border: 1px solid #adb8c0;
@@ -2990,22 +2994,45 @@ body.html .pager .pager-next {
 }
 
 .node-project_craft-form .form-checkbox + label:active,
-.node-project_craft-form .form-checkbox:checked + label:active {
+.node-project_craft-form .form-checkbox:checked + label:active,
+.node-project_craft-form .form-radio + label:active,
+.node-project_craft-form .form-radio:checked + label:active, {
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
 }
 
-.node-project_craft-form .form-checkbox:checked + label {
+.node-project_craft-form .form-checkbox:checked + label,
+.node-project_craft-form .form-radio:checked + label {
   background-color: #e9ecee;
 	border: 1px solid #adb8c0;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
 	color: #99a1a7;
 }
 
-.node-project_craft-form .form-checkbox:checked + label:after  {
+.node-project_craft-form .form-checkbox:checked + label:after
+.node-project_craft-form .form-radio:checked + label:after {
 	content: '\2714';
 	font-size: 50px;
 	position: absolute;
 	top: -10px;
 	left: 3px;
 	color: #99a1a7;
+}
+
+/****** Radios style ********/
+
+.node-project_craft-form .field-widget-term-reference-tree ul ul {
+  margin-top: 0.5em;
+}
+.node-project_craft-form .term-reference-tree-level li {
+  margin-bottom: 1em;
+}
+.node-project_craft-form .field-widget-term-reference-tree ul ul li {
+  display: inline;
+}
+.node-project_craft-form .form-type-radio label {
+  width: 100px;
+  height: 40px;
+}
+.node-project_craft-form .form-radio + label {
+  display: inline-flex;
 }
