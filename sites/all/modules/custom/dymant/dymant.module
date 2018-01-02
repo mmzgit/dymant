@@ -3,11 +3,15 @@ define('CUSTOMER', 'client');
 define('CRAFTSMEN', 'artisan');
 
 /**
- * Implements hook_form_alter()
+ * Implements hook_form_alter().
  */
 function dymant_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'project_craft_node_form':
+      if (user_is_anonymous()) {
+        drupal_set_message(t('Vous devez vous connecter en tant que client pour créer un projet'));
+        drupal_goto('user/login');
+      }
       drupal_set_title('Créer votre projet');
       $form['actions']['submit']['#value'] = t('Envoyer');
       foreach ($form['#steps'] as $key => $step) {
@@ -18,14 +22,19 @@ function dymant_form_alter(&$form, &$form_state, $form_id) {
       break;
     case 'user_profile_form':
       // Hide fields depending on user role.
-      if (in_array('customer', $form['#user']->roles)) {
+      if (!empty($form['#user']->uid) && $form['#user']->uid != '1') {
         $form['field_type_compte']['#access'] = FALSE;
-        $form['field_savoir_faire']['#access'] = FALSE;
-        $form['field_commentaire']['#access'] = FALSE;
         $form['block']['#access'] = FALSE;
         $form['contact']['#access'] = FALSE;
         $form['#after_build'][] = '_dymant_disable_locale';
+        if (!in_array('craftsman', $form['#user']->roles)){
+          $form['field_savoir_faire']['#access'] = FALSE;
+          $form['field_commentaire']['#access'] = FALSE;
+        }
       }
+      break;
+    case 'simplenews_block_form_1':
+      $form['submit']['#value'] = t('Inscription');
       break;
   }
 }
@@ -40,7 +49,7 @@ function _dymant_disable_locale($element, &$form_state) {
 }
 
 /**
- * Implements hook_user_insert()
+ * Implements hook_user_insert().
  */
 function dymant_user_insert(&$edit, $account, $category) {
   // We need to set user role based on account type selected in form subscription.
@@ -49,8 +58,21 @@ function dymant_user_insert(&$edit, $account, $category) {
     if ($account_type == CUSTOMER) {
       $account->roles[4] = 'customer';
     }
-    else {
+    elseif ($account_type == CRAFTSMEN) {
       $account->roles[5] = 'craftsman';
+    }
+  }
+}
+
+/**
+ * Implements dymant_menu_local_tasks_alter().
+ */
+function dymant_menu_local_tasks_alter(&$data) {
+  if (isset($data['tabs'][0]['output'])) {
+    foreach ($data['tabs'][0]['output'] as $key => $value) {
+      if ($value['#link']['path'] == "user/%/view" || $value['#link']['path'] == 'user/%/orders') {
+        unset($data['tabs'][0]['output'][$key]);
+      }
     }
   }
 }
